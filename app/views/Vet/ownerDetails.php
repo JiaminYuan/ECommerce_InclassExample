@@ -6,12 +6,28 @@
 </head>
 
 <body>
-<form action='' method='post'>
-	<label>First name:<input type="text" name="first_name" value="<?= $data->first_name ?>" /></label><br>
-	<label>Last name:<input type="text" name="last_name" value="<?= $data->last_name ?>" /></label><br>
-	<label>Contact:<input type="text" name="contact" value="<?= $data->contact ?>" /></label><br>
-	<input type="submit" name="action" value="Save changes" />
-</form>
+<dl>
+	<dt>
+		First name:
+	</dt>
+	<dd>
+		<?= $data->first_name ?>
+	</dd>
+	<dt>
+		Last name:
+	</dt>
+	<dd>
+		<?= $data->last_name ?>
+	</dd>
+	<dt>
+		Contact:
+	</dt>
+	<dd>
+		<?= $data->contact ?>
+	</dd>
+</dl>
+
+<a href='/Vet/index'>Back to index</a>
 
 </body>
 </html>

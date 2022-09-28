@@ -13,18 +13,21 @@ class Owner extends \app\core\Model{
 		return $STMT->fetchAll();
 	}
 
+	public function get($owner_id){
+		$SQL = "SELECT * FROM owner WHERE owner_id=:owner_id";
+		$STMT = self::$_connection->prepare($SQL);
+		$STMT->execute(['owner_id'=>$owner_id]);
+		//run some code to return the results
+		$STMT->setFetchMode(\PDO::FETCH_CLASS, 'app\models\Owner');
+		return $STMT->fetch();
+	}
+
 	public function insert(){
 		$SQL = "INSERT INTO owner(first_name, last_name, contact) VALUES (:first_name, :last_name, :contact)";
 		$STMT = self::$_connection->prepare($SQL);
 		$STMT->execute(['first_name'=>$this->first_name,
 						'last_name'=>$this->last_name,
 						'contact'=>$this->contact]);
-	}
-
-	public function delete(){
-		$SQL = "DELETE FROM owner WHERE owner_id =:owner_id";
-		$STMT = self::$_connection->prepare($SQL);
-		$STMT->execute(['owner_id'=>$this->owner_id]);
 	}
 
 	public function update(){
@@ -36,15 +39,17 @@ class Owner extends \app\core\Model{
 						'owner_id'=>$this->owner_id]);
 	}
 
-	public function get($owner_id){
-		$SQL = "SELECT * FROM owner WHERE owner_id=:owner_id";
+	public function deleteAnimals(){
+		$SQL = "DELETE FROM animal WHERE owner_id=:owner_id";
 		$STMT = self::$_connection->prepare($SQL);
-		$STMT->execute(['owner_id'=>$owner_id]);
-		//run some code to return the results
-		$STMT->setFetchMode(\PDO::FETCH_CLASS, 'app\models\Owner');
-		return $STMT->fetch();
+		$STMT->execute(['owner_id'=>$this->owner_id]);
 	}
 
+	public function delete(){
+		$SQL = "DELETE FROM owner WHERE owner_id=:owner_id";
+		$STMT = self::$_connection->prepare($SQL);
+		$STMT->execute(['owner_id'=>$this->owner_id]);
+	}
 
-
+	
 }

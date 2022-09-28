@@ -6,12 +6,32 @@
 </head>
 
 <body>
-<form action='' method='post'>
-	<label>First name:<input type="text" name="first_name" value="<?= $data->first_name ?>" /></label><br>
-	<label>Last name:<input type="text" name="last_name" value="<?= $data->last_name ?>" /></label><br>
-	<label>Contact:<input type="text" name="contact" value="<?= $data->contact ?>" /></label><br>
-	<input type="submit" name="action" value="Save changes" />
-</form>
+<h1>Client information</h1>
+<?php $this->view('Owner/detailsPartial',$data['owner']); ?>
+
+<h1>Animal information</h1>
+<dl>
+	<dt>
+		Name:
+	</dt>
+	<dd>
+		<?= $data['animal']->name ?>
+	</dd>
+	<dt>
+		Date of Birth:
+	</dt>
+	<dd>
+		<?= $data['animal']->dob ?>
+	</dd>
+	<dt>
+		Picture:
+	</dt>
+	<dd>
+		<img src="/images/<?= $data['animal']->profile_pic ?>" style="max-width:200px;max-height:200px" />
+	</dd>
+</dl>
+
+<a href='/Animal/index/<?= $data['owner']->owner_id ?>'>Back to index</a>
 
 </body>
 </html>

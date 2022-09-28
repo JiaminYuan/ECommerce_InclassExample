@@ -34,6 +34,7 @@ class Vet extends \app\core\Controller{
 	public function delete($owner_id){
 		$owner = new \app\models\Owner();
 		$owner->owner_id = $owner_id;
+		$owner->deleteAnimals();
 		$owner->delete();
 		header('location:/Vet/index');//redirect back to the list
 	}
@@ -42,18 +43,22 @@ class Vet extends \app\core\Controller{
 		$owner = new \app\models\Owner();
 		$owner = $owner->get($owner_id);//need this
 		if(isset($_POST['action'])){
-			$owner = new \app\models\Owner();
 			$owner->first_name = $_POST['first_name'];
 			$owner->last_name = $_POST['last_name'];
 			$owner->contact = $_POST['contact'];
+
 			$owner->update();
+
 			header('location:/Vet/index');
 		}else{
-			$this->view('Vet/editOwner',$owner);
+			$this->view('Vet/editOwner', $owner);
 		}
 	}
 
-
-
+	public function details($owner_id){
+		$owner = new \app\models\Owner();
+		$owner = $owner->get($owner_id);
+		$this->view('/Vet/ownerDetails',$owner);
+	}
 
 }

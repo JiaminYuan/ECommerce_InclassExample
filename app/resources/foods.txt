@@ -1,5 +1,2 @@
-berries
-cookies
-food
-kiwi
+hotpot
 watermelon
