@@ -49,6 +49,10 @@ class Animal extends \app\core\Controller{
 	public function delete($animal_id){//remove a record
 		$animal = new \app\models\Animal();
 		$animal = $animal->get($animal_id);
+
+		//delete the file
+		unlink("images/$animal->profile_pic");
+
 		$owner_id = $animal->owner_id;
 		$animal->delete();
 		header('location:/Animal/index/' . $owner_id);
@@ -59,6 +63,19 @@ class Animal extends \app\core\Controller{
 		$animal = $animal->get($animal_id);
 		$owner_id = $animal->owner_id;
 		if(isset($_POST['action'])){
+			$filename = $this->saveFile($_FILES['profile_pic']);
+
+			if($filename){
+				//delete the old picture and then change the picture
+				unlink("images/$animal->profile_pic");
+				//save the reference to the new one
+				$animal->profile_pic = $filename;
+			}
+
+			// if(there is a new picture)
+			// 	delete the old one
+			// save the new one to the record
+
 			$animal->name = $_POST['name'];
 			$animal->dob = $_POST['dob'];
 			$animal->update();
