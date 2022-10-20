@@ -2,6 +2,18 @@
 namespace app\models;
 
 class Animal extends \app\core\Model{
+
+	public $animal_id;
+	public $owner_id;
+
+
+	#[\app\validators\Name]
+	public $name;
+
+	#[\app\validators\ValidBirthDateForAnAnimal]
+	public $dob;
+	public $profile_pic;
+
 	public function getForOwner($owner_id){
 		$SQL = "SELECT * FROM animal WHERE owner_id=:owner_id";
 		$STMT = self::$_connection->prepare($SQL);
@@ -20,6 +32,7 @@ class Animal extends \app\core\Model{
 	}
 
 	public function insert(){
+		if(!$this->isValid()) return false;
 		$SQL = "INSERT INTO animal(owner_id, name, dob, profile_pic) VALUES (:owner_id, :name, :dob ,:profile_pic)";
 		$STMT = self::$_connection->prepare($SQL);
 		$STMT->execute(['owner_id'=>$this->owner_id,
@@ -29,6 +42,7 @@ class Animal extends \app\core\Model{
 	}
 
 	public function update(){
+		if(!$this->isValid()) return false;
 		$SQL = "UPDATE animal SET name=:name, dob=:dob, profile_pic=:profile_pic WHERE animal_id=:animal_id";
 		$STMT = self::$_connection->prepare($SQL);
 		$STMT->execute(['name'=>$this->name,
