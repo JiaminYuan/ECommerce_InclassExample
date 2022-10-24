@@ -7,13 +7,15 @@ class Animal extends \app\core\Model{
 	public $owner_id;
 
 
-	#[\app\validators\Name]
-	public $name;
+	#[\app\validators\NonEmpty] //attribute
+	#[\app\validators\Name]		//attribute
+	public $name;				//property
 
 	#[\app\validators\ValidBirthDateForAnAnimal]
 	public $dob;
 	public $profile_pic;
 
+	//for methods don't need validation, have to keep them public
 	public function getForOwner($owner_id){
 		$SQL = "SELECT * FROM animal WHERE owner_id=:owner_id";
 		$STMT = self::$_connection->prepare($SQL);
@@ -31,8 +33,10 @@ class Animal extends \app\core\Model{
 		return $STMT->fetch();
 	}
 
-	public function insert(){
-		if(!$this->isValid()) return false;
+	//only make methods that need validation protected
+	protected function insert(){
+		//the data will not be saved (return false) if it is not valid
+		// if(!$this->isValid()) return false;
 		$SQL = "INSERT INTO animal(owner_id, name, dob, profile_pic) VALUES (:owner_id, :name, :dob ,:profile_pic)";
 		$STMT = self::$_connection->prepare($SQL);
 		$STMT->execute(['owner_id'=>$this->owner_id,
@@ -41,8 +45,8 @@ class Animal extends \app\core\Model{
 						'profile_pic'=>$this->profile_pic]);
 	}
 
-	public function update(){
-		if(!$this->isValid()) return false;
+	protected function update(){
+		// if(!$this->isValid()) return false;
 		$SQL = "UPDATE animal SET name=:name, dob=:dob, profile_pic=:profile_pic WHERE animal_id=:animal_id";
 		$STMT = self::$_connection->prepare($SQL);
 		$STMT->execute(['name'=>$this->name,
