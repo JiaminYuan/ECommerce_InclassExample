@@ -9,6 +9,10 @@
 <h1>Client information</h1>
 <?php $this->view('Owner/detailsPartial',$data['owner']); ?>
 
+<pre>
+	<?php var_dump($data['animal'])?>
+</pre>
+
 <h1>Animal information</h1>
 <dl>
 	<dt>
@@ -22,6 +26,13 @@
 	</dt>
 	<dd>
 		<?= $data['animal']->dob ?>
+	</dd>
+	<dt>
+		Country of origin:
+	</dt>
+	<dd>
+		<?= $data['animal']->nicename ?>
+
 	</dd>
 	<dt>
 		Picture:
